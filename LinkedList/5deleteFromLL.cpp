@@ -42,40 +42,53 @@ Node *deleteFromStart(Node *&head)
 }
 Node *deleteAtGivenPos(Node *&head, int pos)
 {
-    int n = 0;
-    Node *temp = head;
-    while (!temp)
-    {
-        n++;
-        temp = temp->next;
-    }
     if (!head)
     {
         return head;
     }
+    int n = 0;
+    Node *temp = head;
+    while (temp)
+    {
+        n++;
+        temp = temp->next;
+    }
     if (n < pos)
     {
-        cout << "INPUT VALID POSITION";
+        cout << "INPUT VALID POSITION" << endl;
         return head;
     }
     if (pos == 1)
     {
         return deleteFromStart(head);
     }
-    
-}
-Node *insertAtEnd(Node *&head, int x)
-{
-    if (head == NULL)
-    {
-        return new Node(x);
-    }
-    Node *temp = head;
-    while (temp->next != NULL)
+    temp = head;
+    for (int i = 1; i < pos - 1; i++)
     {
         temp = temp->next;
     }
-    temp->next = new Node(x);
+    Node *NodetoDlt = temp->next;
+    temp->next = temp->next->next;
+    delete (NodetoDlt);
+    return head;
+}
+Node *deleteAtEnd(Node *&head)
+{
+    if (head == NULL)
+    {
+        return head;
+    }
+    if (head->next == NULL)
+    {
+        return NULL;
+    }
+    Node *temp = head;
+    while (temp->next->next != NULL)
+    {
+        temp = temp->next;
+    }
+    delete (temp->next);
+    temp->next = NULL;
     return head;
 }
 void printLL(Node *head)
@@ -91,10 +104,10 @@ int main()
 {
     vector<int> a = {1, 2, 3, 4, 5, 7};
     Node *head = constructLL(a);
-    head = insertAtStart(head, 0);
+    head = deleteFromStart(head);
     printLL(head);
-    head = insertAtGivenPos(head, 6, 7);
+    head = deleteAtGivenPos(head, 3);
     printLL(head);
-    head = insertAtEnd(head, 8);
+    head = deleteAtEnd(head);
     printLL(head);
 }
