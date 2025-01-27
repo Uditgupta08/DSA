@@ -5,11 +5,6 @@ class Node
 public:
     int data;
     Node *next;
-    Node(int data, Node *next)
-    {
-        this->data = data;
-        this->next = next;
-    }
     Node(int data)
     {
         this->data = data;
@@ -29,20 +24,48 @@ Node *constructLL(vector<int> &a)
     }
     return head;
 }
-int nodesCount(Node *head)
+Node *detectCycle(Node *head)
 {
-    int count = 0;
+    Node *slow = head;
+    Node *fast = head;
+
+    while (fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast)
+            break;
+    }
+    if (!fast || !fast->next)
+        return nullptr;
+    fast = head;
+    while (fast != slow)
+    {
+        fast = fast->next;
+        slow = slow->next;
+    }
+    return slow;
+}
+void printLL(Node *head)
+{
+    if (!head)
+    {
+        cout << "EMPTY LL" << endl;
+        return;
+    }
     Node *temp = head;
     while (temp)
     {
-        count++;
+        cout << temp->data << " ";
         temp = temp->next;
     }
-    return count;
+    return;
 }
 int main()
 {
     vector<int> a = {1, 2, 3, 4, 5, 6};
     Node *head = constructLL(a);
-    cout << nodesCount(head) << endl;
+    Node *temp = detectCycle(head);
+    printLL(temp);
 }

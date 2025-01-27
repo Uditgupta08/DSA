@@ -5,11 +5,6 @@ class Node
 public:
     int data;
     Node *next;
-    Node(int data, Node *next)
-    {
-        this->data = data;
-        this->next = next;
-    }
     Node(int data)
     {
         this->data = data;
@@ -29,20 +24,42 @@ Node *constructLL(vector<int> &a)
     }
     return head;
 }
-int nodesCount(Node *head)
+Node *detectCycle(Node *head)
 {
-    int count = 0;
+    unordered_map<Node *, int> m;
     Node *temp = head;
-    while (temp)
+    int count = 1;
+    while (temp != NULL)
     {
+        if (m[temp])
+        {
+            return temp;
+        }
+        m[temp] = count;
         count++;
         temp = temp->next;
     }
-    return count;
+    return NULL;
+}
+void printLL(Node *head)
+{
+    if (!head)
+    {
+        cout << "EMPTY LL" << endl;
+        return;
+    }
+    Node *temp = head;
+    while (temp)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    return;
 }
 int main()
 {
     vector<int> a = {1, 2, 3, 4, 5, 6};
     Node *head = constructLL(a);
-    cout << nodesCount(head) << endl;
+    Node *temp = detectCycle(head);
+    printLL(temp);
 }

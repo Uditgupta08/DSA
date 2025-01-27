@@ -5,11 +5,6 @@ class Node
 public:
     int data;
     Node *next;
-    Node(int data, Node *next)
-    {
-        this->data = data;
-        this->next = next;
-    }
     Node(int data)
     {
         this->data = data;
@@ -29,20 +24,50 @@ Node *constructLL(vector<int> &a)
     }
     return head;
 }
-int nodesCount(Node *head)
+void printLL(Node *head)
 {
-    int count = 0;
+    if (!head)
+    {
+        cout << "EMPTY LL" << endl;
+        return;
+    }
     Node *temp = head;
+    while (temp)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    return;
+}
+Node *removeNthFromEnd(Node *&head, int n)
+{
+    Node *temp = head;
+    int count = 0;
     while (temp)
     {
         count++;
         temp = temp->next;
     }
-    return count;
+    int rem = count - n;
+    if (rem == 0)
+    {
+        return head->next;
+    }
+    temp = head;
+    for (int i = 0; i < rem - 1; i++)
+    {
+        temp = temp->next;
+    }
+    if (temp->next)
+    {
+        temp->next = temp->next->next;
+    }
+    return head;
 }
 int main()
 {
     vector<int> a = {1, 2, 3, 4, 5, 6};
     Node *head = constructLL(a);
-    cout << nodesCount(head) << endl;
+    Node *odd = removeNthFromEnd(head, 6);
+    printLL(odd);
 }

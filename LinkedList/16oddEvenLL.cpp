@@ -5,11 +5,6 @@ class Node
 public:
     int data;
     Node *next;
-    Node(int data, Node *next)
-    {
-        this->data = data;
-        this->next = next;
-    }
     Node(int data)
     {
         this->data = data;
@@ -29,20 +24,44 @@ Node *constructLL(vector<int> &a)
     }
     return head;
 }
-int nodesCount(Node *head)
+void printLL(Node *head)
 {
-    int count = 0;
+    if (!head)
+    {
+        cout << "EMPTY LL" << endl;
+        return;
+    }
     Node *temp = head;
     while (temp)
     {
-        count++;
+        cout << temp->data << " ";
         temp = temp->next;
     }
-    return count;
+    return;
+}
+Node *oddEven(Node *head)
+{
+    if (!head || head->next == NULL)
+    {
+        return head;
+    }
+    Node *odd = head;
+    Node *even = head->next;
+    Node *temp = even;
+    while (even && even->next)
+    {
+        odd->next = odd->next->next;
+        even->next = even->next->next;
+        odd = odd->next;
+        even = even->next;
+    }
+    odd->next = temp;
+    return head;
 }
 int main()
 {
     vector<int> a = {1, 2, 3, 4, 5, 6};
     Node *head = constructLL(a);
-    cout << nodesCount(head) << endl;
+    Node *odd = oddEven(head);
+    printLL(odd);
 }
