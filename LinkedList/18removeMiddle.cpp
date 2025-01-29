@@ -24,31 +24,27 @@ Node *constructLL(vector<int> &a)
     }
     return head;
 }
-int findLen(Node *slow, Node *fast)
-{
-    int count = 1;
-    fast = fast->next;
-    while (slow != fast)
-    {
-        count++;
-        fast = fast->next;
-    }
-    return count;
-}
-int detectLoop(Node *head)
+Node *deletemiddleOfLL(Node *&head)
 {
     Node *slow = head;
     Node *fast = head;
+    Node *pre = head;
+    if (head == NULL || head->next == NULL)
+    {
+        return NULL;
+    }
     while (fast && fast->next)
     {
-        slow = slow->next;
+        pre = slow;
         fast = fast->next->next;
-        if (slow == fast)
-        {
-            return findLen(slow, fast);
-        }
+        slow = slow->next;
     }
-    return 0;
+    if (pre)
+    {
+        pre->next = slow->next;
+    }
+    delete slow;
+    return head;
 }
 void printLL(Node *head)
 {
@@ -67,7 +63,8 @@ void printLL(Node *head)
 }
 int main()
 {
-    vector<int> a = {1, 2, 3, 4, 5, 6};
+    vector<int> a = {1, 2, 3, 4};
     Node *head = constructLL(a);
-    cout << detectLoop(head);
+    Node *middle = deletemiddleOfLL(head);
+    printLL(middle);
 }

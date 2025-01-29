@@ -24,32 +24,6 @@ Node *constructLL(vector<int> &a)
     }
     return head;
 }
-int findLen(Node *slow, Node *fast)
-{
-    int count = 1;
-    fast = fast->next;
-    while (slow != fast)
-    {
-        count++;
-        fast = fast->next;
-    }
-    return count;
-}
-int detectLoop(Node *head)
-{
-    Node *slow = head;
-    Node *fast = head;
-    while (fast && fast->next)
-    {
-        slow = slow->next;
-        fast = fast->next->next;
-        if (slow == fast)
-        {
-            return findLen(slow, fast);
-        }
-    }
-    return 0;
-}
 void printLL(Node *head)
 {
     if (!head)
@@ -65,9 +39,23 @@ void printLL(Node *head)
     }
     return;
 }
+Node *sortLL(Node *head)
+{
+    vector<int> ans;
+    Node *temp = head;
+    while (temp)
+    {
+        ans.push_back(temp->data);
+        temp = temp->next;
+    }
+    sort(ans.begin(), ans.end());
+    temp = constructLL(ans);
+    return temp;
+}
 int main()
 {
-    vector<int> a = {1, 2, 3, 4, 5, 6};
+    vector<int> a = {4, 3, 2, 1};
     Node *head = constructLL(a);
-    cout << detectLoop(head);
+    head = sortLL(head);
+    printLL(head);
 }
